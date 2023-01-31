@@ -1,0 +1,1 @@
+az policy assignment create --policy tagging-policy-rg --name tagging-policy-rg --display-name "Enforces resource groups to have a tag defined" --description "This policy enforces resource groups to have a tag defined. Tags make it much easier to structure resources and to have a good overview. Therefore we want to ensure all resource groups to have tags."

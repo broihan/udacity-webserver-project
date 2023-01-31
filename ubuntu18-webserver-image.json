@@ -1,0 +1,41 @@
+{
+	"variables": {
+		"client_id": "{{env `ARM_CLIENT_ID`}}",
+		"client_secret": "{{env `ARM_CLIENT_SECRET`}}",
+		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}"
+	},
+	"builders": [{
+		"type": "azure-arm",
+		
+		"client_id" : "{{user `client_id`}}",
+		"client_secret": "{{user `client_secret`}}",
+		"subscription_id": "{{user `subscription_id`}}",
+		
+		"os_type": "Linux",		
+		"image_publisher": "Canonical",
+		"image_offer": "UbuntuServer",
+		"image_sku": "18.04-LTS",
+
+		"managed_image_resource_group_name": "udacity-project-webserver-rg",
+		"managed_image_name": "WebApplicationServer",
+		
+		"vm_size": "Standard_D2S_v3",
+		
+		"location": "West Europe",
+		
+		"azure_tags": {"purpose" : "udacity project webserver" }
+		
+	}],
+	"provisioners": [{
+		"inline": [
+			"apt-get update",
+			"apt-get upgrade -y",
+			"apt-get install -y apache2",
+			"rm /var/www/html/index.html",
+			"echo 'Hello world :)' > /var/www/html/index.html"
+		],
+		"inline_shebang": "sudo /bin/sh -x",
+		"type": "shell",
+		"execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+	}]
+}
